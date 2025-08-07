@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StatusBarNetSpeed</string>
+    <string name="enable_switch">Enable</string>
+    <string name="show_icon_checkbox">Show Icons</string>
+    <string name="start_on_boot_checkbox">Start on Boot</string>
+    <string name="delay_textview">Delay</string>
+</resources>
