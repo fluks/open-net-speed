@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         NumberPicker delayNumberPicker = findViewById(R.id.delay_numberpicker);
         delayNumberPicker.setMinValue(1);
+        delayNumberPicker.setMinValue(0);
+        delayNumberPicker.setMaxValue(100);
         delayNumberPicker.setValue(prefs.getInt(Global.PREF_DELAY, Global.DEFAULT_DELAY));
         delayNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
             prefs.edit().putInt(Global.PREF_DELAY, newVal).apply();
