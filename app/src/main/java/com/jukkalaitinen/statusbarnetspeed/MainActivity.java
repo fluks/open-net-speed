@@ -9,20 +9,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
         new ActivityResultContracts.RequestPermission(), isGranted -> {
             if (!isGranted) {
                 Toast.makeText(this, R.string.no_notification_permission, Toast.LENGTH_LONG).show();
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences(Global.PREFS_NAME, MODE_PRIVATE);
-        Switch enableSwitch = findViewById(R.id.enable_switch);
+        SwitchCompat enableSwitch = findViewById(R.id.enable_switch);
         enableSwitch.setChecked(prefs.getBoolean(Global.PREF_ENABLED, false));
         enableSwitch.setOnClickListener(v -> {
             boolean enabled = enableSwitch.isChecked();
@@ -61,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
         delayNumberPicker.setMinValue(0);
         delayNumberPicker.setMaxValue(100);
         delayNumberPicker.setValue(prefs.getInt(Global.PREF_DELAY, Global.DEFAULT_DELAY));
-        delayNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            prefs.edit().putInt(Global.PREF_DELAY, newVal).apply();
-        });
+        delayNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) ->
+            prefs.edit().putInt(Global.PREF_DELAY, newVal).apply());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
