@@ -69,7 +69,7 @@ public class NetSpeedService extends Service {
 
     private String formatBytes(double bytesPerSec) {
         if (bytesPerSec < 1024) {
-            return bytesPerSec + "B";
+            return String.format("%.0fB/s", bytesPerSec);
         }
         int exp = (int) (Math.log(bytesPerSec) / Math.log(1024));
         String unit = "KMGTPE".charAt(exp-1) + "B";
