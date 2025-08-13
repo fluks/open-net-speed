@@ -1,22 +1,33 @@
 package com.jukkalaitinen.statusbarnetspeed;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.NetworkScan;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
+        new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (!isGranted) {
+                Toast.makeText(this, R.string.no_notification_permission, Toast.LENGTH_LONG).show();
+            }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (!hasNotificationPermission(getApplicationContext())) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+        }
     }
 
     private void stopService() {
@@ -75,5 +90,19 @@ public class MainActivity extends AppCompatActivity {
         else {
             startService(serviceIntent);
         }
+    }
+
+    private Boolean hasNotificationPermission(Context context) {
+        // For Android 13 (API 33) and above, check for POST_NOTIFICATIONS
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED;
+        }
+        // For older versions, notifications don't require a specific runtime permission
+        // (though users can still disable them in settings).
+        // So, we can consider it "granted" in terms of runtime checks.
+        return true;
     }
 }
