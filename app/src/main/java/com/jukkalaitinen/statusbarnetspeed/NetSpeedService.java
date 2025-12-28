@@ -54,7 +54,8 @@ public class NetSpeedService extends Service {
                 if (lastUpdate != 0) {
                     String rxDelta = formatBytes((rx - lastRX) / delta);
                     String txDelta = formatBytes((tx - lastTX) / delta);
-                    String message = String.format("↓%s↑%s", rxDelta, txDelta);
+                    String message = getString(R.string.upload, txDelta) + " " +
+                        getString(R.string.download, rxDelta);
                     updateNotification(message);
                 }
 
