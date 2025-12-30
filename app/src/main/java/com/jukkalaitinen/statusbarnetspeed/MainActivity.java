@@ -36,17 +36,24 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences(Global.PREFS_NAME, MODE_PRIVATE);
         SwitchCompat enableSwitch = findViewById(R.id.enable_switch);
-        enableSwitch.setChecked(prefs.getBoolean(Global.PREF_ENABLED, false));
+        boolean enabled = prefs.getBoolean(Global.PREF_ENABLED, false);
+        enableSwitch.setChecked(enabled);
         enableSwitch.setOnClickListener(v -> {
-            boolean enabled = enableSwitch.isChecked();
-            prefs.edit().putBoolean(Global.PREF_ENABLED, enabled).apply();
-            if (enabled) {
+            boolean e = enableSwitch.isChecked();
+            prefs.edit().putBoolean(Global.PREF_ENABLED, e).apply();
+            if (e) {
                 startService(prefs);
             }
             else {
                 stopService();
             }
         });
+        if (enabled) {
+            startService(prefs);
+        }
+        else {
+            stopService();
+        }
 
         CheckBox startOnBootCheckbox = findViewById(R.id.start_on_boot_checkbox);
         startOnBootCheckbox.setChecked(prefs.getBoolean(Global.PREF_START_ON_BOOT, false));
