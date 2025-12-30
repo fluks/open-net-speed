@@ -107,7 +107,6 @@ public class NetSpeedService extends Service {
     private Notification getNotification(String message) {
         return new NotificationCompat.Builder(this, "status_channel")
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle("StatusBarNetSpeed")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setOngoing(true)
