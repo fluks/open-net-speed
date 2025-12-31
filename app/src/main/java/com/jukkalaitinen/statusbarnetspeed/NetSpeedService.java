@@ -14,6 +14,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.os.ConfigurationCompat;
+
+import java.util.Locale;
 
 public class NetSpeedService extends Service {
     private static final int NOTIFICATION_ID = 1;
@@ -69,13 +72,15 @@ public class NetSpeedService extends Service {
     }
 
     private String formatBytes(double bytesPerSec) {
+        Locale locale = ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
+
         if (bytesPerSec < 1024) {
-            return String.format("%.0fB/s", bytesPerSec);
+            return String.format(locale, "%.0fB/s", bytesPerSec);
         }
         int exp = (int) (Math.log(bytesPerSec) / Math.log(1024));
         String unit = "KMGTPE".charAt(exp-1) + "B";
 
-        return String.format("%.1f%s/s", bytesPerSec / Math.pow(1024, exp), unit);
+        return String.format(locale, "%.1f%s/s", bytesPerSec / Math.pow(1024, exp), unit);
     }
 
     @Override
