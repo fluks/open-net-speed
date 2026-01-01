@@ -26,6 +26,9 @@ public class NetSpeedService extends Service {
     private long lastUpdate = 0;
     private long lastRX = 0;
     private long lastTX = 0;
+    private long startTotalRX;
+    private long startTotalTX;
+    private Locale locale;
     private static final String TAG = "NetSpeedService";
 
     public NetSpeedService() {
@@ -38,11 +41,20 @@ public class NetSpeedService extends Service {
         startForeground(NOTIFICATION_ID, getNotification("Starting updates..."));
         
         handler = new Handler(Looper.getMainLooper());
+        startTotalRX = -1;
+        startTotalTX = -1;
+        locale = ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
         updateRunnable = new Runnable() {
             @Override
             public void run() {
                 long rx = TrafficStats.getTotalRxBytes();
                 long tx = TrafficStats.getTotalTxBytes();
+                if (startTotalRX == -1) {
+                    startTotalRX = rx;
+                }
+                if (startTotalTX == -1) {
+                    startTotalTX = tx;
+                }
                 long now = System.currentTimeMillis();
                 double delta = now - lastUpdate;
                 Log.d(TAG, "" + delta);
@@ -55,10 +67,15 @@ public class NetSpeedService extends Service {
                 Log.d(TAG, "" + delta);
                 // Not first time.
                 if (lastUpdate != 0) {
-                    String rxDelta = formatBytes((rx - lastRX) / delta);
-                    String txDelta = formatBytes((tx - lastTX) / delta);
+                    String rxDelta = formatBytes((rx - lastRX) / delta, true);
+                    String txDelta = formatBytes((tx - lastTX) / delta, true);
+                    String rxTotal = formatBytes(rx - startTotalRX, false);
+                    String txTotal = formatBytes(tx - startTotalTX, false);
                     String message = getString(R.string.upload, txDelta) + " " +
-                        getString(R.string.download, rxDelta);
+                        getString(R.string.download, rxDelta) + "\n" +
+                        getString(R.string.total) + " " +
+                        getString(R.string.upload, txTotal) + " " +
+                        getString(R.string.download, rxTotal);
                     updateNotification(message);
                 }
 
@@ -71,16 +88,15 @@ public class NetSpeedService extends Service {
         handler.post(updateRunnable);
     }
 
-    private String formatBytes(double bytesPerSec) {
-        Locale locale = ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
-
-        if (bytesPerSec < 1024) {
-            return String.format(locale, "%.0fB/s", bytesPerSec);
+    private String formatBytes(double bytes, boolean perSec) {
+        if (bytes < 1024) {
+            return String.format(locale, "%.0fB" + (perSec ? "/s" : ""), bytes);
         }
-        int exp = (int) (Math.log(bytesPerSec) / Math.log(1024));
+        int exp = (int) (Math.log(bytes) / Math.log(1024));
         String unit = "KMGTPE".charAt(exp-1) + "B";
 
-        return String.format(locale, "%.1f%s/s", bytesPerSec / Math.pow(1024, exp), unit);
+        return String.format(locale,
+        "%.1f%s" + (perSec ? "/s" : ""), bytes / Math.pow(1024, exp), unit);
     }
 
     @Override

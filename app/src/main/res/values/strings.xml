@@ -5,6 +5,7 @@
     <string name="start_on_boot_checkbox">Start on Boot</string>
     <string name="delay_textview">Delay</string>
     <string name="no_notification_permission">This app is useless without notification permission.</string>
-    <string name="upload">Upload ↑%s</string>
-    <string name="download">Download ↓%s</string>
+    <string name="upload">Up ↑%s</string>
+    <string name="download">Down ↓%s</string>
+    <string name="total">Total</string>
 </resources>
