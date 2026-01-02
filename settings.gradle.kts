@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "StatusBarNetSpeed"
+rootProject.name = "OpenNetSpeed"
 include(":app")

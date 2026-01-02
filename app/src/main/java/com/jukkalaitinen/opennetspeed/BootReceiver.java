@@ -1,4 +1,4 @@
-package com.jukkalaitinen.statusbarnetspeed;
+package com.jukkalaitinen.opennetspeed;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jukkalaitinen.statusbarnetspeed"
+    namespace = "com.jukkalaitinen.opennetspeed"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jukkalaitinen.statusbarnetspeed"
+        applicationId = "com.jukkalaitinen.opennetspeed"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

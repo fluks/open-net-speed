@@ -1,4 +1,4 @@
-package com.jukkalaitinen.statusbarnetspeed;
+package com.jukkalaitinen.opennetspeed;
 
 import org.junit.Test;
 

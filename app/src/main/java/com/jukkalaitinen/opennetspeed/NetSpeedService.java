@@ -1,4 +1,4 @@
-package com.jukkalaitinen.statusbarnetspeed;
+package com.jukkalaitinen.opennetspeed;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
