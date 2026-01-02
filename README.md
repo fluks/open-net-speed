@@ -11,8 +11,10 @@ this app.
 
 ## Screenshots
 
-![Settings](assets/settings.png)
-![Notification](assets/notification.png)
+<div>
+  <img alt="Screenshot of settings" src="assets/settings.png" style="height: 800px">
+  <img alt="Screenshot of notication" src="assets/notification.png" style="height: 800px">
+</div>
 
 ## License
 
