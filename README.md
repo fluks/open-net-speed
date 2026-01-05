@@ -16,6 +16,10 @@ this app.
   <img alt="Screenshot of notication" src="assets/notification.png" style="height: 800px">
 </div>
 
+## Install
+
+From ![Google Play](https://play.google.com/store/apps/details?id=com.jukkalaitinen.opennetspeed) or compile and install yourself.
+
 ## License
 
 GPL3.
