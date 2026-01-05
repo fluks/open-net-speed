@@ -18,7 +18,7 @@ this app.
 
 ## Install
 
-From ![Google Play](https://play.google.com/store/apps/details?id=com.jukkalaitinen.opennetspeed) or compile and install yourself.
+From [Google Play](https://play.google.com/store/apps/details?id=com.jukkalaitinen.opennetspeed) or compile and install yourself.
 
 ## License
 
